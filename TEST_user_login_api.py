@@ -25,13 +25,13 @@ class test_invalid_POST_login(unittest.TestCase):
     def test_SQL_Inj_01(self):
         url = self.url + '/missions/realistic/4/addemail.php'
         payload = {'email': "'or1=1--"}
+        headers = {'Referer': 'https://www.hackthissite.org/missions/realistic/4/'}
+        expected_error = "Error inserting into table \"email\"! Email not valid! Please contact an administrator of Fischer's"
         # make request:
-        print(url)
-        POST_req = requests.post(url, data=payload)
-        print(POST_req.text)
-        
-        
-
+        POST_req = requests.post(url, data=payload, headers=headers)
+        # assert correct error is returned
+        self.assertEqual(expected_error, POST_req.content)
+         
 if __name__ == '__main__':
     unittest.main()
     
