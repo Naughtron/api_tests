@@ -6,12 +6,13 @@ class test_invalid_POST_login(unittest.TestCase):
         self.payload = {'username':'testuser', 'password':'password'}
         self.url = 'https://www.hackthissite.org'
 
-    
     def test_POST_invalid_login(self):
         payload = self.payload
+        headers = {'Referer': 'https://www.hackthissite.org/missions/realistic/4/'}
         url = self.url + '/user/login'
         # make request: 
-        POST_req = requests.post(url, data=payload)
+        POST_req = requests.post(url, data=payload, headers=headers)
+        print(POST_req.status_code)
         # assert response code 
         self.assertEqual(POST_req.status_code, 200)
         
